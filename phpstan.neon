@@ -1,0 +1,9 @@
+parameters:
+    level: max
+    paths:
+        - src
+
+    reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        # Ignore all missing iterable value type errors for any class/property
+        - '#with no value type specified in iterable type\s+array#'
