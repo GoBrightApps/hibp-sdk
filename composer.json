@@ -1,0 +1,53 @@
+{
+    "name": "bright/hibp-api",
+    "description": "The package providing api interface for Have I been Pwen (Hibp)",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saeed",
+            "email": "appsaeed7@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.22.0",
+        "pestphp/pest": "^3.8.2|^4.0.0",
+        "pestphp/pest-plugin-arch": "^3.1.1|^4.0.0",
+        "phpstan/phpstan": "^2.1",
+        "symfony/var-dumper": "^7.2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bright\\Hibp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "scripts": {
+        "lint": "pint -v",
+        "test:lint": "pint --test -v",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "pest --colors=always",
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
