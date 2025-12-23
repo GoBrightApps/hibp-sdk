@@ -3,7 +3,6 @@
     <a href="https://packagist.org/packages/bright/hibp-sdk"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/bright/hibp-sdk"></a>
     <a href="https://packagist.org/packages/bright/hibp-sdk"><img alt="Latest Version" src="https://img.shields.io/packagist/v/bright/hibp-sdk"></a>
     <a href="https://packagist.org/packages/bright/hibp-sdk"><img alt="License" src="https://img.shields.io/github/license/GoBrightApps/hibp-sdk"></a>
-    <a href="https://www.bright.it"><img alt="Built" src="https://img.shields.io/badge/Built-Bright Team-orange" /></a>
 </p>
 
 The Hibp sdk provides an easy-to-use interface for interacting with Have I Been Pwned - [HIBP API](https://haveibeenpwned.com/API/v3).  
