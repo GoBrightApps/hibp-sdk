@@ -56,8 +56,7 @@ abstract class ResponseCollection implements Arrayable, ArrayAccess, Countable, 
      * Convert api response to raw array item into this object.
      *
      * @param  array<int, array<string, mixed>>|Response  $items
-     *
-     * @phpstan-return static<TResponse>
+     * @return static<TResponse>
      */
     public static function make(array|Response $items): static
     {
