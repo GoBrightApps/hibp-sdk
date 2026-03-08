@@ -9,25 +9,25 @@ use Bright\Hibp\Responses\ResponseData;
 /**
  * Represents a breach record returned from the HIBP API.
  *
- * @property-read string|null $name
- * @property-read string|null $title
- * @property-read string|null $domain
- * @property-read string|null $breachDate
- * @property-read string|null $addedDate
- * @property-read string|null $modifiedDate
- * @property-read int|null $pwnCount
- * @property-read string|null $description
- * @property-read string|null $logoPath
- * @property-read string|null $attribution
- * @property-read string|null $disclosureUrl
- * @property-read array|null $dataClasses
- * @property-read bool|null $isVerified
- * @property-read bool|null $isFabricated
- * @property-read bool|null $isSensitive
- * @property-read bool|null $isRetired
- * @property-read bool|null $isSpamList
- * @property-read bool|null $isMalware
- * @property-read bool|null $isSubscriptionFree
- * @property-read bool|null $isStealerLog
+ * @property-read string|null $Name
+ * @property-read string|null $Title
+ * @property-read string|null $Domain
+ * @property-read string|null $BreachDate
+ * @property-read string|null $AddedDate
+ * @property-read string|null $ModifiedDate
+ * @property-read int|null $PwnCount
+ * @property-read string|null $Description
+ * @property-read string|null $LogoPath
+ * @property-read string|null $Attribution
+ * @property-read string|null $DisclosureUrl
+ * @property-read array<int, string>|null $DataClasses
+ * @property-read bool|null $IsVerified
+ * @property-read bool|null $IsFabricated
+ * @property-read bool|null $IsSensitive
+ * @property-read bool|null $IsRetired
+ * @property-read bool|null $IsSpamList
+ * @property-read bool|null $IsMalware
+ * @property-read bool|null $IsSubscriptionFree
+ * @property-read bool|null $IsStealerLog
  */
 class BreachInfo extends ResponseData {}
