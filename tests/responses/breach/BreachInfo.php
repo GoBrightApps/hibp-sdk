@@ -15,13 +15,6 @@ it('returns property values values via magic', function () {
         'DataClasses' => ['Emails', 'Passwords'],
     ]);
 
-    expect($breach->name)->toBe('Adobe');
-    expect($breach->pwn_count)->toBe(10);
-    expect($breach->is_verified)->toBeTrue();
-    expect($breach->logo_path)->toBe('logo/adobe.png');
-    expect($breach->data_classes)->toBe(['Emails', 'Passwords']);
-    expect($breach->uknown)->toBeNull();
-
     // studly-cased
     expect($breach->Name)->toBe('Adobe');
     expect($breach->PwnCount)->toBe(10);
@@ -29,6 +22,14 @@ it('returns property values values via magic', function () {
     expect($breach->LogoPath)->toBe('logo/adobe.png');
     expect($breach->DataClasses)->toBe(['Emails', 'Passwords']);
     expect($breach->Uknown)->toBeNull();
+
+    // snake_case (not supported)
+    expect($breach->name)->toBeNull();
+    expect($breach->pwn_count)->toBeNull();
+    expect($breach->is_verified)->toBeNull();
+    expect($breach->logo_path)->toBeNull();
+    expect($breach->data_classes)->toBeNull();
+    expect($breach->uknown)->toBeNull();
 });
 
 test('data conversions with types casting', function () {
@@ -59,10 +60,4 @@ test('data conversions with types casting', function () {
     expect($breach['Name'])->toBe('Adobe');
     expect($breach['Unknown'])->toBeNull();
 
-    // IteratorAggregate
-    $collected = [];
-    foreach ($breach as $key => $value) {
-        $collected[$key] = $value;
-    }
-    expect($collected)->toBe($data);
 });

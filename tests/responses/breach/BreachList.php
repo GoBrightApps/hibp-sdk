@@ -44,7 +44,10 @@ it('handles get, array access, iteration', function () {
     foreach ($breaches as $key => $value) {
         $collected[$key] = $value;
     }
-    expect($collected)->toBe($items);
+    expect($collected[0])->toBeInstanceOf(BreachInfo::class);
+    expect($collected[1])->toBeInstanceOf(BreachInfo::class);
+    expect($collected[0]->toArray())->toBe($items[0]);
+    expect($collected[1]->toArray())->toBe($items[1]);
 
     // Countable
     expect(count($breaches))->toBe(2);
