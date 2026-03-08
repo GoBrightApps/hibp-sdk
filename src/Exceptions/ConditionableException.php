@@ -30,6 +30,7 @@ trait ConditionableException
     public static function throwIf($condition, ...$params): void
     {
         if ($condition) {
+            // @phpstan-ignore-next-line
             throw new static(...$params);
         }
     }
@@ -43,6 +44,7 @@ trait ConditionableException
     public static function throwUnless($condition, ...$params): void
     {
         if (! $condition) {
+            // @phpstan-ignore-next-line
             throw new static(...$params);
         }
     }
@@ -56,6 +58,7 @@ trait ConditionableException
     public static function if($condition, ...$params): void
     {
         if ($condition) {
+            // @phpstan-ignore-next-line
             throw new static(...$params);
         }
     }

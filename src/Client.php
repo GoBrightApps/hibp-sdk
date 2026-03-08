@@ -96,7 +96,6 @@ class Client implements HibpContract
      */
     public function breach(string $name): BreachInfo
     {
-        // @phpstan-ignore-next-line
         return BreachInfo::make($this->factory->get("/breach/$name"));
     }
 
@@ -108,7 +107,6 @@ class Client implements HibpContract
      */
     public function latestbreach(): BreachInfo
     {
-        // @phpstan-ignore-next-line
         return BreachInfo::make($this->factory->get('/latestbreach'));
     }
 
