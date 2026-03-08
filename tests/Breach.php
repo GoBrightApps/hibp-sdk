@@ -1,15 +1,17 @@
 <?php
 
-use Bright\Hibp\Responses\Breach;
+declare(strict_types=1);
+
+use Bright\Hibp\Responses\Breach\BreachInfo;
 
 it('returns property values values via magic', function () {
 
-    $breach = new Breach([
-        'Name' => 'Adobe',
-        'PwnCount' => 10,
-        'IsVerified' => true,
+    $breach = new BreachInfo([
+        'Name'        => 'Adobe',
+        'PwnCount'    => 10,
+        'IsVerified'  => true,
         'Description' => 'Adobe breach description',
-        'LogoPath' => 'logo/adobe.png',
+        'LogoPath'    => 'logo/adobe.png',
         'DataClasses' => ['Emails', 'Passwords'],
     ]);
 
@@ -32,12 +34,12 @@ it('returns property values values via magic', function () {
 test('data conversions with types casting', function () {
 
     $data = [
-        'Name' => 'Adobe',
-        'PwnCount' => 100,
+        'Name'       => 'Adobe',
+        'PwnCount'   => 100,
         'IsVerified' => true,
     ];
 
-    $breach = new Breach($data);
+    $breach = new BreachInfo($data);
 
     // __isset
     expect(isset($breach->Name))->toBeTrue();

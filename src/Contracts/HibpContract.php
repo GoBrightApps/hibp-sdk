@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bright\Hibp\Contracts;
 
-use Bright\Hibp\Responses\Breach;
-use Bright\Hibp\Responses\Breaches;
+use Bright\Hibp\Responses\Breach\BreachInfo;
+use Bright\Hibp\Responses\Breach\BreachList;
 
 /**
  * Interface HibpContract
@@ -20,7 +22,7 @@ interface HibpContract
      * API: `GET /breachedaccount/{account}`
      * Docs: https://haveibeenpwned.com/API/V3#BreachesForAccount
      */
-    public function breachedaccount(string $account): Breaches;
+    public function breachedaccount(string $account): BreachList;
 
     /**
      * Get all breached email addresses for a verified domain.
@@ -48,7 +50,7 @@ interface HibpContract
      * API: `GET /breaches`
      * Docs: https://haveibeenpwned.com/API/V3#AllBreaches
      */
-    public function breaches(): Breaches;
+    public function breaches(): BreachList;
 
     /**
      * Get a single breach by its name.
@@ -56,7 +58,7 @@ interface HibpContract
      * API: `GET /breach/{name}`
      * Docs: https://haveibeenpwned.com/API/V3#SingleBreach
      */
-    public function breach(string $name): Breach;
+    public function breach(string $name): BreachInfo;
 
     /**
      * Get the most recently added breach.
@@ -64,7 +66,7 @@ interface HibpContract
      * API: `GET /latestbreach`
      * Docs: https://haveibeenpwned.com/API/V3#LatestBreach
      */
-    public function latestbreach(): Breach;
+    public function latestbreach(): BreachInfo;
 
     /**
      * Get all data classes in the system.

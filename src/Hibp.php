@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bright\Hibp;
 
 use Bright\Hibp\Http\Response;

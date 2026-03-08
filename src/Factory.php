@@ -86,6 +86,48 @@ class Factory
     }
 
     /**
+     * Define fake responses.
+     *
+     * @param  mixed  $data
+     */
+    public static function fake(string $path, $data = null): void
+    {
+
+        $response = $data instanceof Response ? $data : self::response($data);
+
+        static::$fakes[$path] = $response;
+    }
+
+    /**
+     * Clear fakes.
+     */
+    public static function clearFakes(): void
+    {
+        static::$fakes = [];
+    }
+
+    /**
+     * Create a Response instance.
+     *
+     * @param  mixed  $body
+     * @param  (string|string[])[]  $headers
+     */
+    public static function response($body = '', int $status = 200, array $headers = []): Response
+    {
+        if ($body instanceof \GuzzleHttp\Psr7\Response) {
+            return new Response($body);
+        }
+
+        // @phpstan-ignore-next-line
+        $body = is_array($body) ? json_encode($body) : (string) $body;
+
+        // @phpstan-ignore-next-line
+        $response = new \GuzzleHttp\Psr7\Response($status, $headers, $body);
+
+        return new Response($response);
+    }
+
+    /**
      * Add request headers.
      *
      * @param  array<string, mixed>  $headers
@@ -194,6 +236,22 @@ class Factory
     }
 
     /**
+     * Perform a GET request.
+     */
+    public function get(string $url, array $query = []): Response
+    {
+        return $this->send('GET', $url, ['query' => array_merge($this->query, $query)]);
+    }
+
+    /**
+     * Create a new hibp client
+     */
+    public function make(): Client
+    {
+        return new Client($this);
+    }
+
+    /**
      * Build the final handler stack.
      */
     protected function buildHandlerStack(): HandlerStack
@@ -205,14 +263,6 @@ class Factory
         }
 
         return $stack;
-    }
-
-    /**
-     * Perform a GET request.
-     */
-    public function get(string $url, array $query = []): Response
-    {
-        return $this->send('GET', $url, ['query' => array_merge($this->query, $query)]);
     }
 
     /**
@@ -233,7 +283,7 @@ class Factory
 
         $options['headers'] = array_merge(
             [
-                Hibp::HEADER_AUTH_NAME => $this->apiKey,
+                Hibp::HEADER_AUTH_NAME  => $this->apiKey,
                 Hibp::HEADER_USER_AGENT => $this->userAgent,
             ], $this->headers);
 
@@ -251,59 +301,9 @@ class Factory
         } catch (GuzzleException $e) {
 
             $status = $e->getCode() ?: 500;
-            $body = $e->getMessage();
+            $body   = $e->getMessage();
 
             return new Response(new \GuzzleHttp\Psr7\Response($status, [], $body));
         }
-    }
-
-    /**
-     * Create a new hibp client
-     */
-    public function make(): Client
-    {
-        return new Client($this);
-    }
-
-    /**
-     * Define fake responses.
-     *
-     * @param  mixed  $data
-     */
-    public static function fake(string $path, $data = null): void
-    {
-
-        $response = $data instanceof Response ? $data : self::response($data);
-
-        static::$fakes[$path] = $response;
-    }
-
-    /**
-     * Clear fakes.
-     */
-    public static function clearFakes(): void
-    {
-        static::$fakes = [];
-    }
-
-    /**
-     * Create a Response instance.
-     *
-     * @param  mixed  $body
-     * @param  (string|string[])[]  $headers
-     */
-    public static function response($body = '', int $status = 200, array $headers = []): Response
-    {
-        if ($body instanceof \GuzzleHttp\Psr7\Response) {
-            return new Response($body);
-        }
-
-        // @phpstan-ignore-next-line
-        $body = is_array($body) ? json_encode($body) : (string) $body;
-
-        // @phpstan-ignore-next-line
-        $response = new \GuzzleHttp\Psr7\Response($status, $headers, $body);
-
-        return new Response($response);
     }
 }

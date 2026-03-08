@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 use Bright\Hibp\Client;
 use Bright\Hibp\Factory;
 use Bright\Hibp\Http\Response;
-use Bright\Hibp\Responses\Breach;
-use Bright\Hibp\Responses\Breaches;
+use Bright\Hibp\Responses\Breach\BreachInfo;
+use Bright\Hibp\Responses\Breach\BreachList;
 
 it('can chain withFactory', function () {
-    $client = new Client;
+    $client  = new Client;
     $factory = new Factory;
-    $client = $client->withFactory($factory);
+    $client  = $client->withFactory($factory);
     expect($client)->toBeInstanceOf(Client::class);
 });
 
@@ -17,10 +19,10 @@ test('breachedaccount', function () {
     $factory = new Factory;
     Factory::fake('/breachedaccount/test@example.com', [['Name' => 'Adobe']]);
 
-    $client = new Client($factory);
+    $client   = new Client($factory);
     $breaches = $client->breachedaccount('test@example.com');
 
-    expect($breaches)->toBeInstanceOf(Breaches::class);
+    expect($breaches)->toBeInstanceOf(BreachList::class);
     expect($breaches->toArray()[0]['Name'])->toBe('Adobe');
 
     Factory::clearFakes();
@@ -30,12 +32,12 @@ test('breachedaccount - empty when breachedaccount 404', function () {
 
     $factory = new Factory;
 
-    Factory::fake('/breachedaccount/test@example.com', new Response(new \GuzzleHttp\Psr7\Response(404)));
+    Factory::fake('/breachedaccount/test@example.com', new Response(new GuzzleHttp\Psr7\Response(404)));
 
-    $client = new Client($factory);
+    $client   = new Client($factory);
     $breaches = $client->breachedaccount('test@example.com');
 
-    expect($breaches)->toBeInstanceOf(Breaches::class);
+    expect($breaches)->toBeInstanceOf(BreachList::class);
     expect($breaches->toArray())->toBeEmpty();
 
     Factory::clearFakes();
@@ -65,10 +67,10 @@ test('breaches', function () {
     $factory = new Factory;
     Factory::fake('/breaches', [['Name' => 'Adobe']]);
 
-    $client = new Client($factory);
+    $client   = new Client($factory);
     $breaches = $client->breaches();
 
-    expect($breaches)->toBeInstanceOf(Breaches::class);
+    expect($breaches)->toBeInstanceOf(BreachList::class);
     expect($breaches->toArray()[0]['Name'])->toBe('Adobe');
 
     Factory::clearFakes();
@@ -81,7 +83,7 @@ test('breach', function () {
     $client = new Client($factory);
     $breach = $client->breach('Adobe');
 
-    expect($breach)->toBeInstanceOf(Breach::class);
+    expect($breach)->toBeInstanceOf(BreachInfo::class);
     expect($breach->Name)->toBe('Adobe');
 
     Factory::clearFakes();
@@ -94,7 +96,7 @@ test('latestbreach', function () {
     $client = new Client($factory);
     $breach = $client->latestbreach();
 
-    expect($breach)->toBeInstanceOf(Breach::class);
+    expect($breach)->toBeInstanceOf(BreachInfo::class);
     expect($breach->Name)->toBe('Adobe');
 
     Factory::clearFakes();

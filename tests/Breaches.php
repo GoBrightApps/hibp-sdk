@@ -1,25 +1,27 @@
 <?php
 
-use Bright\Hibp\Responses\Breach;
-use Bright\Hibp\Responses\Breaches;
+declare(strict_types=1);
+
+use Bright\Hibp\Responses\Breach\BreachInfo;
+use Bright\Hibp\Responses\Breach\BreachList;
 
 it('handles get, array access, iteration', function () {
 
     $items = [
         [
-            'Name' => 'Adobe',
+            'Name'     => 'Adobe',
             'PwnCount' => 100,
         ],
         [
-            'Name' => 'Dropbox',
+            'Name'     => 'Dropbox',
             'PwnCount' => 200,
         ],
     ];
 
-    $breaches = new Breaches($items);
+    $breaches = new BreachList($items);
 
     // get()
-    expect($breaches->get(0))->toBeInstanceOf(Breach::class);
+    expect($breaches->get(0))->toBeInstanceOf(BreachInfo::class);
     expect($breaches->get(0)->Name)->toBe('Adobe');
     expect($breaches->get(1)->PwnCount)->toBe(200);
 
@@ -34,7 +36,7 @@ it('handles get, array access, iteration', function () {
     expect(isset($breaches[0]))->toBeTrue();
     expect(isset($breaches[5]))->toBeFalse();
 
-    expect($breaches[0])->toBeInstanceOf(Breach::class);
+    expect($breaches[0])->toBeInstanceOf(BreachInfo::class);
     expect($breaches[0]->Name)->toBe('Adobe');
 
     // IteratorAggregate

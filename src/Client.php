@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bright\Hibp;
 
 use Bright\Hibp\Contracts\HibpContract;
-use Bright\Hibp\Responses\Breach;
-use Bright\Hibp\Responses\Breaches;
+use Bright\Hibp\Responses\Breach\BreachInfo;
+use Bright\Hibp\Responses\Breach\BreachList;
 
 class Client implements HibpContract
 {
@@ -37,16 +39,16 @@ class Client implements HibpContract
      * API: `GET /breachedaccount/{account}`
      * Docs: https://haveibeenpwned.com/API/V3#BreachesForAccount
      */
-    public function breachedaccount(string $account): Breaches
+    public function breachedaccount(string $account): BreachList
     {
         $response = $this->factory->get("/breachedaccount/{$account}");
 
         // Special case: no breaches (HIBP returns 404 for no results)
         if ($response->status() === 404) {
-            return new Breaches([]);
+            return new BreachList([]);
         }
 
-        return new Breaches( /** @var array<int, array<string, mixed>> */ $response->json());
+        return BreachList::make($response);
     }
 
     /**
@@ -81,9 +83,9 @@ class Client implements HibpContract
      * API: `GET /breaches`
      * Docs: https://haveibeenpwned.com/API/V3#AllBreaches
      */
-    public function breaches(): Breaches
+    public function breaches(): BreachList
     {
-        return new Breaches($this->factory->get('/breaches')->json());
+        return BreachList::make($this->factory->get('/breaches'));
     }
 
     /**
@@ -92,10 +94,10 @@ class Client implements HibpContract
      * API: `GET /breach/{name}`
      * Docs: https://haveibeenpwned.com/API/V3#SingleBreach
      */
-    public function breach(string $name): Breach
+    public function breach(string $name): BreachInfo
     {
         // @phpstan-ignore-next-line
-        return new Breach($this->factory->get("/breach/$name")->json());
+        return BreachInfo::make($this->factory->get("/breach/$name"));
     }
 
     /**
@@ -104,10 +106,10 @@ class Client implements HibpContract
      * API: `GET /latestbreach`
      * Docs: https://haveibeenpwned.com/API/V3#LatestBreach
      */
-    public function latestbreach(): Breach
+    public function latestbreach(): BreachInfo
     {
         // @phpstan-ignore-next-line
-        return new Breach($this->factory->get('/latestbreach')->json());
+        return BreachInfo::make($this->factory->get('/latestbreach'));
     }
 
     /**

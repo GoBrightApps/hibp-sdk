@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bright\Hibp\Support;
 
 /**
@@ -52,13 +54,13 @@ class Support
 
             if ($i === 0 && preg_match('#^(https?|ftp)://#i', $part, $m)) {
                 $protocol = $m[0];
-                $rest = substr($part, strlen($protocol));
-                $urls[] = $protocol.rtrim((string) preg_replace('#/+#', '/', $rest), '/');
+                $rest     = mb_substr($part, mb_strlen($protocol));
+                $urls[]   = $protocol.mb_rtrim((string) preg_replace('#/+#', '/', $rest), '/');
             } else {
-                $urls[] = trim((string) preg_replace('#/+#', '/', $part), '/');
+                $urls[] = mb_trim((string) preg_replace('#/+#', '/', $part), '/');
             }
         }
 
-        return implode('/', array_filter($urls, fn (string $v): bool => strlen($v) > 0));
+        return implode('/', array_filter($urls, fn (string $v): bool => mb_strlen($v) > 0));
     }
 }
